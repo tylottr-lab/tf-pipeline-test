@@ -35,5 +35,7 @@ jobs:
       continue-on-error: true
     - name: terraform init
       run: terraform init
+      env:
+        ARM_SAS_TOKEN: ${{ secrets.ARM_SAS_TOKEN }}
     - name: terraform validate
       run: terraform validate
