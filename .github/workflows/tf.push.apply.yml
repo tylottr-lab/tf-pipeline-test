@@ -20,9 +20,8 @@ on:
 
 # workflow
 jobs:
-  plan:
+  apply:
     runs-on: ubuntu-latest
-    environment: dev
     steps:
     # checkout
     - uses: actions/checkout@v2
