@@ -1,0 +1,52 @@
+######################################################
+# Terraform Test Workflow
+# 
+# Performs a simple test to ensure that Terraform is:
+# - Formatted correctly
+# - Initializes without a backend
+# - Validates
+######################################################
+
+name: Terraform - Test
+
+# set global pipeline env vars
+env:
+  TF_IN_AUTOMATION: true
+  TF_INPUT: false
+  TF_VERSION: 1.2.4
+
+# workflow triggers
+on:
+  # enables manual runs
+  workflow_dispatch:
+  # on push to main
+  # push:
+  #   branches: [ main ]
+  #   paths: [ '**.tf' ]
+  # on pr to main
+  # pull_request:
+  #   branches: [ main ]
+  #   paths: [ '**.tf' ]
+
+# workflow
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    # checkout
+    - uses: actions/checkout@v2
+
+    # setup
+    - name: setup terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
+
+    # base checks
+    - name: terraform fmt
+      run: terraform fmt -check
+      continue-on-error: true
+    - name: terraform init
+      run: terraform init -backend=false
+    - name: terraform validate
+      run: terraform validate

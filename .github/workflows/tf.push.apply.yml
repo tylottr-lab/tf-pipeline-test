@@ -1,4 +1,4 @@
-name: Terraform - Module Test
+name: Terraform - Apply
 
 # set global pipeline env vars
 env:
@@ -10,14 +10,14 @@ env:
 on:
   # enables manual runs
   workflow_dispatch:
+  # on push to main
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    paths: [ '**.tf' ]
 
 # workflow
 jobs:
-  test:
+  apply:
     runs-on: ubuntu-latest
     steps:
     # checkout
@@ -34,6 +34,14 @@ jobs:
       run: terraform fmt -check
       continue-on-error: true
     - name: terraform init
-      run: terraform init -backend=false
+      run: terraform init
+      env:
+        ARM_SAS_TOKEN: ${{ secrets.ARM_SAS_TOKEN }}
     - name: terraform validate
       run: terraform validate
+
+    # plan and apply
+    - name: terraform plan
+      run: terraform plan -out tf.plan
+    - name: terraform apply
+      run: terraform apply tf.plan

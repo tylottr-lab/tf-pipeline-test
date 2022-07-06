@@ -1,4 +1,11 @@
-name: Terraform - Apply
+######################################################
+# Terraform Plan Workflow
+# 
+# Performs a plan when a PR is triggered to show
+# changes before approval
+######################################################
+
+name: Terraform - Plan
 
 # set global pipeline env vars
 env:
@@ -10,14 +17,14 @@ env:
 on:
   # enables manual runs
   workflow_dispatch:
-  push:
-    branches: [ main ]
+  # on pr to main
   pull_request:
     branches: [ main ]
+    paths: [ '**.tf' ]
 
 # workflow
 jobs:
-  apply:
+  plan:
     runs-on: ubuntu-latest
     steps:
     # checkout
@@ -35,13 +42,9 @@ jobs:
       continue-on-error: true
     - name: terraform init
       run: terraform init
-      env:
-        ARM_SAS_TOKEN: ${{ secrets.ARM_SAS_TOKEN }}
     - name: terraform validate
       run: terraform validate
 
-    # plan and apply
+    # plan
     - name: terraform plan
       run: terraform plan -out tf.plan
-    - name: terraform apply
-      run: terraform apply tf.plan
