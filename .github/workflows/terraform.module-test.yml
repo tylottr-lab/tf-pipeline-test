@@ -34,8 +34,6 @@ jobs:
       run: terraform fmt -check
       continue-on-error: true
     - name: terraform init
-      run: terraform init
-      env:
-        ARM_SAS_TOKEN: ${{ secrets.ARM_SAS_TOKEN }}
+      run: terraform init -backend=false
     - name: terraform validate
       run: terraform validate
