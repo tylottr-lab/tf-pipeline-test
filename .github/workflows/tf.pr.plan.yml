@@ -20,7 +20,9 @@ on:
   # on pr to main
   pull_request:
     branches: [ main ]
-    paths: [ '**.tf' ]
+    paths:
+    - '**.tf'
+    - '**.tfvars'
 
 # workflow
 jobs:

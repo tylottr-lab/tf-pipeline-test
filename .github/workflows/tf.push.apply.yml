@@ -13,7 +13,9 @@ on:
   # on push to main
   push:
     branches: [ main ]
-    paths: [ '**.tf' ]
+    paths:
+    - '**.tf'
+    - '**.tfvars'
 
 # workflow
 jobs:
