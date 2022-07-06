@@ -1,6 +1,6 @@
 ######################################################
 # Terraform Plan Workflow
-# 
+#
 # Performs a plan when a PR is triggered to show
 # changes before approval
 ######################################################

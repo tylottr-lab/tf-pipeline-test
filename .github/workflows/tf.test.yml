@@ -1,6 +1,6 @@
 ######################################################
 # Terraform Test Workflow
-# 
+#
 # Performs a simple test to ensure that Terraform is:
 # - Formatted correctly
 # - Initializes without a backend
