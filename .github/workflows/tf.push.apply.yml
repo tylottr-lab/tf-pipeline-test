@@ -1,5 +1,10 @@
 name: Terraform - Apply
 
+# set global permissions
+
+permissions:
+  contents: read
+
 # set global pipeline env vars
 env:
   TF_IN_AUTOMATION: true
