@@ -5,6 +5,7 @@ env:
   TF_IN_AUTOMATION: true
   TF_INPUT: false
   TF_VERSION: 1.2.4
+  ARM_SAS_TOKEN: ${{ secrets.ARM_SAS_TOKEN }}
 
 # workflow triggers
 on:
@@ -37,8 +38,6 @@ jobs:
       continue-on-error: true
     - name: terraform init
       run: terraform init
-      env:
-        ARM_SAS_TOKEN: ${{ secrets.ARM_SAS_TOKEN }}
     - name: terraform validate
       run: terraform validate
 
