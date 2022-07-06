@@ -1,0 +1,47 @@
+name: Terraform - Apply
+
+# set global pipeline env vars
+env:
+  TF_IN_AUTOMATION: true
+  TF_INPUT: false
+  TF_VERSION: 1.2.4
+
+# workflow triggers
+on:
+  # enables manual runs
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# workflow
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    # checkout
+    - uses: actions/checkout@v2
+
+    # setup
+    - name: setup terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
+
+    # base checks
+    - name: terraform fmt
+      run: terraform fmt -check
+      continue-on-error: true
+    - name: terraform init
+      run: terraform init
+      env:
+        ARM_SAS_TOKEN: ${{ secrets.ARM_SAS_TOKEN }}
+    - name: terraform validate
+      run: terraform validate
+
+    # plan and apply
+    - name: terraform plan
+      run: terraform plan -out tf.plan
+    - name: terraform apply
+      run: terraform apply tf.plan
