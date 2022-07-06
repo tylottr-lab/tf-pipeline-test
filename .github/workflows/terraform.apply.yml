@@ -17,7 +17,7 @@ on:
 
 # workflow
 jobs:
-  test:
+  apply:
     runs-on: ubuntu-latest
     steps:
     # checkout
